@@ -1,6 +1,6 @@
 # VM configuration for Minecraft server
 provider "google" {
-    project = "{{jenkins-299411}}"    
+    project = "jenkins-299411"    
     region = "us-central1"
     zone = "us-central1-f"
 }
@@ -10,7 +10,7 @@ resource "google_compute_disk" "default" {
   name  = "mc-disk"
   type  = "pd-ssd"
   zone  = "us-central1-f"
-  image = "Ubuntu 16.04 LTS"
+  image = "ubuntu-os-cloud/ubuntu-1604-xenial-v20201210"
   size = "10"
   physical_block_size_bytes = 4096
 }
@@ -21,7 +21,7 @@ resource "google_compute_instance" "vm_instance" {
 
   boot_disk {
     initialize_params {
-      image = "Ubuntu 16.04 LTS"
+      image = "ubuntu-os-cloud/ubuntu-1604-xenial-v20201210"
       type = "pd-ssd"
     }
   }
