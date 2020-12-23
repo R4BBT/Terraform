@@ -1,3 +1,4 @@
+# VM configuration for Minecraft server
 provider "google" {
     project = "{{jenkins-299411}}"    
     region = "us-central1"
@@ -5,13 +6,12 @@ provider "google" {
 }
 
 resource "google_compute_disk" "default" {
-  name  = "test-disk"
+  description = "Persistent Disk for Minecraft server"
+  name  = "mc-disk"
   type  = "pd-ssd"
   zone  = "us-central1-f"
-  image = "debian-9-stretch-v20200805"
-  labels = {
-    environment = "dev"
-  }
+  image = "Ubuntu 16.04 LTS"
+  size = "10"
   physical_block_size_bytes = 4096
 }
 
@@ -22,10 +22,16 @@ resource "google_compute_instance" "vm_instance" {
   boot_disk {
     initialize_params {
       image = "Ubuntu 16.04 LTS"
-      type = "pd-standard"
+      type = "pd-ssd"
     }
   }
-  metadata_startup_script = "URL here"
+
+  attached_disk {
+    source = "mc-disk"
+    mode = "READ_WRITE"
+  }
+
+  metadata_startup_script = "apt-get install screen -y"
 
   network_interface {
     # A default network is created for all GCP projects
@@ -35,6 +41,6 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   service_account {
-    scopes = ["userinfo-email", "compute-ro", "storage-ro"]
+    scopes = ["compute-full", "storage-full"]
   }
 }
