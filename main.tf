@@ -18,7 +18,7 @@ resource "google_compute_disk" "default" {
 resource "google_compute_instance" "vm_instance" {
   name = "mc-server"
   machine_type = "f1-micro" # f1-micro because it's free
-  tags = ["minecraft-server"] # Under Construction
+  tags = ["minecraft-server"] 
 
   boot_disk {
     initialize_params {
@@ -62,4 +62,5 @@ resource "google_compute_firewall" "default" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+  target_tags ["minecraft-server"]
 }
