@@ -16,8 +16,9 @@ resource "google_compute_disk" "default" {
 }
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "mc-server"
-  machine_type = "f1-micro" #f1-micro because it's free
+  name = "mc-server"
+  machine_type = "f1-micro" # f1-micro because it's free
+  tags = ["minecraft-server"] # Under Construction
 
   boot_disk {
     initialize_params {
@@ -43,4 +44,22 @@ resource "google_compute_instance" "vm_instance" {
   service_account {
     scopes = ["compute-full", "storage-full"]
   }
+}
+#################################################
+resource "google_compute_firewall" "default" {
+  name    = "minecraft-rule"
+  network = google_compute_network.default.name
+  direction = "INGRESS"
+  priority = "100"
+  
+  allow {
+    protocol = "all"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22, 25565"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
 }
