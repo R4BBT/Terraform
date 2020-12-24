@@ -48,7 +48,7 @@ resource "google_compute_instance" "vm_instance" {
 #################################################
 resource "google_compute_firewall" "default" {
   name    = "minecraft-rule"
-  network = google_compute_network.default.name
+  network = google_compute_network.default.default
   direction = "INGRESS"
   priority = "100"
   
