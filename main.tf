@@ -77,7 +77,7 @@ resource "google_compute_firewall" "default" {
 
 #Configure backup storage bucket
 resource "google_storage_bucket" "default" {
-  name          = "minecraft-server-backup"
+  name          = "mcbackup122420"
   location      = "US-central1"
   project = "jenkins-299411"
   force_destroy = true
